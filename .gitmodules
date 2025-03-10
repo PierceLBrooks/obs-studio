@@ -7,3 +7,6 @@
 [submodule "plugins/obs-websocket"]
 	path = plugins/obs-websocket
 	url = https://github.com/obsproject/obs-websocket.git
+[submodule "plugins/obs-x264/h264bitstream"]
+	path = plugins/obs-x264/h264bitstream
+	url = https://github.com/PierceLBrooks/h264bitstream.git
