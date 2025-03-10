@@ -29,6 +29,7 @@
 #endif
 
 #include <x264.h>
+#include <h264_stream.h>
 
 #define do_log_enc(level, encoder, format, ...) \
 	blog(level, "[x264 encoder: '%s'] " format, obs_encoder_get_name(encoder), ##__VA_ARGS__)
@@ -681,6 +682,43 @@ static void parse_packet(struct obs_x264 *obsx264, struct encoder_packet *packet
 		return;
 
 	da_resize(obsx264->packet_data, 0);
+
+	// TODO: PLB SEI
+    const char *uuid = "0xDEADBEEFCAFEBABE";
+    int len = strlen(uuid);
+    uint8_t *buf = NULL;
+    h264_stream_t *h = h264_new();
+    sei_t *seis;
+    sei_t sei;
+    sei_unregistered_user_data_t uud;
+    nal_t nal;
+    for (int i = 0; i < sizeof(uud.uuid); i++) {
+        uud.uuid[i] = uuid[i];
+    }
+    len = strlen(uuid);
+    uud.user_data = (uint8_t *)uuid;
+    nal.nal_unit_type = NAL_UNIT_TYPE_SEI;
+    nal.nal_ref_idc = 0;
+    sei.payloadType = SEI_TYPE_USER_DATA_UNREGISTERED;
+    sei.payloadSize = len + sizeof(uud.uuid);
+    sei.sei_uud = &uud;
+    seis = &sei;
+    h->seis = &seis;
+    h->sei = &sei;
+    h->nal = &nal;
+    h->num_seis = 1;
+    len = obsx264->params.rc.i_vbv_buffer_size;
+    buf = bmalloc(len + 1);
+    len = write_nal_unit(h, buf, len);
+    if (len > 0) {
+        da_push_back_array(obsx264->packet_data, buf, len);
+    }
+    h->seis = NULL;
+    h->sei = NULL;
+    h->nal = NULL;
+    h->num_seis = 0;
+    h264_free(h);
+    free(buf);
 
 	for (int i = 0; i < nal_count; i++) {
 		x264_nal_t *nal = nals + i;
