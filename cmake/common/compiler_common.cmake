@@ -27,7 +27,7 @@ set(
   -Wno-error=unreachable-code
   -Wquoted-include-in-framework-header
   -Wno-missing-braces
-  -Wparentheses
+  -Wno-error=parentheses
   -Wswitch
   -Wno-unused-function
   -Wno-unused-label

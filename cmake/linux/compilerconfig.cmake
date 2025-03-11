@@ -32,7 +32,7 @@ set(
   -Wno-unknown-pragmas
   -Wno-unused-function
   -Wno-unused-label
-  -Wparentheses
+  -Wno-error=parentheses
   -Wswitch
   -Wuninitialized
   -Wno-error=unreachable-code
