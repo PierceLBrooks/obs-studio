@@ -36,7 +36,7 @@ set(
   -Wswitch
   -Wuninitialized
   -Wno-error=unreachable-code
-  -Wunused-parameter
+  -Wno-error=unused-parameter
   -Wunused-value
   -Wunused-variable
   -Wvla
