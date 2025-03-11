@@ -692,7 +692,7 @@ static void parse_packet(struct obs_x264 *obsx264, struct encoder_packet *packet
     sei_t sei;
     sei_unregistered_user_data_t uud;
     nal_t nal;
-    for (int i = 0; i < sizeof(uud.uuid); i++) {
+    for (int i = 0; i < (int)sizeof(uud.uuid); i++) {
         uud.uuid[i] = uuid[i];
     }
     len = strlen(uuid);
@@ -700,7 +700,7 @@ static void parse_packet(struct obs_x264 *obsx264, struct encoder_packet *packet
     nal.nal_unit_type = NAL_UNIT_TYPE_SEI;
     nal.nal_ref_idc = 0;
     sei.payloadType = SEI_TYPE_USER_DATA_UNREGISTERED;
-    sei.payloadSize = len + sizeof(uud.uuid);
+    sei.payloadSize = len + (int)sizeof(uud.uuid);
     sei.sei_uud = &uud;
     seis = &sei;
     h->seis = &seis;
