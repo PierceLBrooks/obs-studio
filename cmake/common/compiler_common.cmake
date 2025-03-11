@@ -24,7 +24,6 @@ set(
   -Wno-missing-field-initializers
   -Wno-missing-prototypes
   -Werror=return-type
-  -Wunreachable-code
   -Wquoted-include-in-framework-header
   -Wno-missing-braces
   -Wparentheses
