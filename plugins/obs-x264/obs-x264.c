@@ -683,6 +683,7 @@ static void parse_packet(struct obs_x264 *obsx264, struct encoder_packet *packet
 
 	da_resize(obsx264->packet_data, 0);
 
+#if 1
 	// TODO: PLB SEI
     const char *uuid = "0xDEADBEEFCAFEBABE";
     int len = strlen(uuid);
@@ -718,7 +719,8 @@ static void parse_packet(struct obs_x264 *obsx264, struct encoder_packet *packet
     h->nal = NULL;
     h->num_seis = 0;
     h264_free(h);
-    free(buf);
+    bfree(buf);
+#endif
 
 	for (int i = 0; i < nal_count; i++) {
 		x264_nal_t *nal = nals + i;
