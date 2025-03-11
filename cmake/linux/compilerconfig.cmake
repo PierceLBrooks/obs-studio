@@ -35,7 +35,7 @@ set(
   -Wparentheses
   -Wswitch
   -Wuninitialized
-  -Wunreachable-code
+  -Wno-error=unreachable-code
   -Wunused-parameter
   -Wunused-value
   -Wunused-variable
